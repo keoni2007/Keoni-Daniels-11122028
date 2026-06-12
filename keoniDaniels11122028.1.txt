@@ -1,1 +1,463 @@
-1.+--------------------+| Database           |+--------------------+| basketballDb       || claimsQuestions    || ContactListName    || information_schema || KEONI              || mysql              || performance_schema || phrontlynedb       || prestigecars       || sys                || test               || videoRentalStore   |+--------------------+2.desc membership;+-------------+-------------+------+-----+---------+-------+| Field       | Type        | Null | Key | Default | Extra |+-------------+-------------+------+-----+---------+-------+| MEM_NUM     | int         | NO   | PRI | NULL    |       || MEM_FNAME   | varchar(50) | YES  |     | NULL    |       || MEM_LNAME   | varchar(50) | YES  |     | NULL    |       || MEM_STREET  | varchar(50) | YES  |     | NULL    |       || MEM_CITY    | varchar(50) | YES  |     | NULL    |       || MEM_STATE   | varchar(50) | YES  |     | NULL    |       || MEM_ZIP     | int         | YES  |     | NULL    |       || MEM_BALANCE | int         | YES  |     | NULL    |       |+-------------+-------------+------+-----+---------+-------+8 rows in set (0.002 sec)DESC RENTAL;+-----------+------+------+-----+---------+-------+| Field     | Type | Null | Key | Default | Extra |+-----------+------+------+-----+---------+-------+| RENT_NUM  | int  | NO   | PRI | NULL    |       || RENT_DATE | date | YES  |     | NULL    |       || MEM_NUM   | int  | YES  | MUL | NULL    |       |+-----------+------+------+-----+---------+-------+3 rows in set (0.001 sec)DESC DETAILRENTAL;+---------------------+--------------+------+-----+---------+-------+| Field               | Type         | Null | Key | Default | Extra |+---------------------+--------------+------+-----+---------+-------+| RENT_NUM            | int          | NO   | PRI | NULL    |       || VID_NUM             | int          | NO   | PRI | NULL    |       || DETAIL_FEE          | decimal(8,2) | YES  |     | NULL    |       || DETAIL_DUEDATE      | date         | YES  |     | NULL    |       || DETAIL_RETURNDATE   | date         | YES  |     | NULL    |       || DETAIL_DAILYLATEFEE | decimal(8,2) | YES  |     | NULL    |       |+---------------------+--------------+------+-----+---------+-------+6 rows in set (0.003 sec)DESC PRICE;+--------------------+--------------+------+-----+---------+-------+| Field              | Type         | Null | Key | Default | Extra |+--------------------+--------------+------+-----+---------+-------+| PRICE_CODE         | int          | NO   | PRI | NULL    |       || PRICE_DESCRIPTION  | varchar(50)  | YES  |     | NULL    |       || PRICE_RENTFEE      | decimal(8,2) | YES  |     | NULL    |       || PRICE_DAILYLATEFEE | decimal(8,2) | YES  |     | NULL    |       |+--------------------+--------------+------+-----+---------+-------+4 rows in set (0.001 sec)DESC MOVIE;+-------------+--------------+------+-----+---------+-------+| Field       | Type         | Null | Key | Default | Extra |+-------------+--------------+------+-----+---------+-------+| MOVIE_NUM   | int          | NO   | PRI | NULL    |       || MOVIE_TITLE | varchar(50)  | YES  |     | NULL    |       || MOVIE_YEAR  | int          | YES  |     | NULL    |       || MOVIE_COST  | decimal(8,2) | YES  |     | NULL    |       || MOVIE_GENRE | varchar(50)  | YES  |     | NULL    |       || PRICE_CODE  | int          | YES  | MUL | NULL    |       |+-------------+--------------+------+-----+---------+-------+6 rows in set (0.002 sec)DESC VIDEO;+------------+------+------+-----+---------+-------+| Field      | Type | Null | Key | Default | Extra |+------------+------+------+-----+---------+-------+| VID_NUM    | int  | NO   | PRI | NULL    |       || VID_INDATE | date | YES  |     | NULL    |       || MOVIE_NUM  | int  | YES  | MUL | NULL    |       |+------------+------+------+-----+---------+-------+3 rows in set (0.002 sec)select movie_num from movie where movie_num = 1245;2.DETAILRENTALCreate table DETAILRENTAL(RENT_NUM int, VID_NUM int, DETAIL_FEE decimal(8,2), DETAIL_DUEDATE date, DETAIL_RETURNDATE date, DETAIL_DAILYLATEFEE decimal(8,2), primary key (RENT_NUM, VID_NUM), foreign key(RENT_NUM) references RENTAL(RENT_NUM), foreign key(VID_NUM) references VIDEO(VID_NUM));INSERT INTO MEMBERSHIP VALUES(102,'Tami','Dawson','2632 Takli Circle','Norene','TN',37136,11),(103,'Curt','Knight','4025 Cornell Court','Flatgap','KY',41219,6),(104,'Jamal','Melendez','788 East 145th Avenue','Quebeck','TN',38579,0),(105,'Iva','Mcclain','6045 Musket Ball Circle','Summit','KY',42783,15),(106,'Miranda','Parks','4469 Maxwell Place','Germantown','TN',38183,0),(107,'Rosario','Elliott','7578 Danner Avenue','Columbia','TN',38402,5),(108,'Mattie','Guy','4390 Evergreen Street','Lily','KY',40740,0),(109,'Clint','Ochoa','1711 Elm Street','Greeneville','TN',37745,10),(110,'Lewis','Rosales','4524 Southwind Circle','Counce','TN',38326,0),(111,'Stacy','Mann','2789 East Cook Avenue','Murfreesboro','TN',37132,8),(112,'Luis','Trujillo','7267 Melvin Avenue','Heiskell','TN',37754,3),(113,'Minnie','Gonzales','6430 Vasili Drive','Williston','TN',38076,0);INSERT INTO PRICE VALUES(1,'Standard',2.00,1.00),(2,'New Release',3.50,3.00),(3,'Discount',1.50,1.00),(4,'Weekly Special',1.00,0.50);INSERT INTO MOVIE VALUES(1234,'The Cesar Family Christmas',2014,39.95,'FAMILY',2),(1235,'Smokey Mountain Wildlife',2011,59.95,'ACTION',1),(1236,'Richard Goodhope',2015,59.95,'DRAMA',2),(1237,'Beatnik Fever',2014,29.95,'COMEDY',2),(1238,'Constant Companion',2015,89.95,'DRAMA',NULL),(1239,'Where Hope Dies',2005,25.49,'DRAMA',3),(1245,'Time to Burn',2012,45.49,'ACTION',1),(1246,'What He Doesn''t Know',2013,58.29,'COMEDY',1);INSERT INTO RENTAL VALUES(1001,'01-MAR-16',103),(1002,'01-MAR-16',105),(1003,'02-MAR-16',102),(1004,'02-MAR-16',110),(1005,'02-MAR-16',111),(1006,'02-MAR-16',107),(1007,'02-MAR-16',104),(1008,'03-AR-16',105),(1009,'03-MAR-16',111); select movie_num,movie_year from movie where movie_num = 1245;3.select movie_num,movie_year from movie where movie_num = 1245;+-----------+------------+| movie_num | movie_year |+-----------+------------+|      1245 |       2012 |+-----------+------------+1 row in set (0.000 sec)select movie_num,movie_year from movie where movie_num = 1245;+-----------+------------+| movie_num | movie_year |+-----------+------------+|      1245 |       2010 |+-----------+------------+1 row in set (0.003 sec)4.select movie_genre,price_code from movie where movie_genre = 'action';+-------------+------------+| movie_genre | price_code |+-------------+------------+| ACTION      |          1 || ACTION      |          1 |+-------------+------------+2 rows in set (0.001 sec)select movie_genre,price_code from movie where movie_genre = 'action';+-------------+------------+| movie_genre | price_code |+-------------+------------+| ACTION      |          3 || ACTION      |          3 |+-------------+------------+2 rows in set (0.000 sec)5.select price_rentfee from price;+---------------+| price_rentfee |+---------------+|          2.00 ||          3.50 ||          1.50 ||          1.00 |+---------------+4 rows in set (0.001 sec)select price_rentfee from price;+---------------+| price_rentfee |+---------------+|          2.50 ||          4.00 ||          2.00 ||          1.50 |+---------------+4 rows in set (0.000 sec)6.SELECT movie_title,movie_year,movie_genre from movie;+----------------------------+------------+-------------+| movie_title                | movie_year | movie_genre |+----------------------------+------------+-------------+| The Cesar Family Christmas |       2014 | FAMILY      || Smokey Mountain Wildlife   |       2011 | ACTION      || Richard Goodhope           |       2015 | DRAMA       || Beatnik Fever              |       2014 | COMEDY      || Constant Companion         |       2015 | DRAMA       || Where Hope Dies            |       2005 | DRAMA       || Time to Burn               |       2012 | ACTION      || What He Doesn't Know       |       2013 | COMEDY      |+----------------------------+------------+-------------+8 rows in set (0.001 sec)7. select movie_year,movie_title,movie_cost from movie order by movie_year desc;+------------+----------------------------+------------+| movie_year | movie_title                | movie_cost |+------------+----------------------------+------------+|       2015 | Richard Goodhope           |      59.95 ||       2015 | Constant Companion         |      89.95 ||       2014 | The Cesar Family Christmas |      39.95 ||       2014 | Beatnik Fever              |      29.95 ||       2013 | What He Doesn't Know       |      58.29 ||       2011 | Smokey Mountain Wildlife   |      59.95 ||       2012 | Time to Burn               |      45.49 ||       2005 | Where Hope Dies            |      25.49 |+------------+----------------------------+------------+8 rows in set (0.004 sec)8.SELECT MOVIE_TITLE, MOVIE_YEAR, MOVIE_GENRE FROM MOVIE ORDER BY MOVIE_GENRE ASC, MOVIE_YEAR DESC;+----------------------------+------------+-------------+| MOVIE_TITLE                | MOVIE_YEAR | MOVIE_GENRE |+----------------------------+------------+-------------+| Smokey Mountain Wildlife   |       2011 | ACTION      || Time to Burn               |       2012 | ACTION      || Beatnik Fever              |       2014 | COMEDY      || What He Doesn't Know       |       2013 | COMEDY      || Richard Goodhope           |       2015 | DRAMA       || Constant Companion         |       2015 | DRAMA       || Where Hope Dies            |       2005 | DRAMA       || The Cesar Family Christmas |       2014 | FAMILY      |+----------------------------+------------+-------------+8 rows in set (0.001 sec)9.select movie_num,movie_title,price_code from movie where movie_title like 'R%';+-----------+------------------+------------+| movie_num | movie_title      | price_code |+-----------+------------------+------------+|      1236 | Richard Goodhope |          2 |+-----------+------------------+------------+1 row in set (0.003 sec)10.select movie_title,movie_year,movie_cost from movie where movie_title like '%hope%';+------------------+------------+------------+| movie_title      | movie_year | movie_cost |+------------------+------------+------------+| Richard Goodhope |       2015 |      59.95 || Where Hope Dies  |       2005 |      25.49 |+------------------+------------+------------+2 rows in set (0.000 sec)11.select movie_title,movie_year,movie_genre from movie where movie_genre ='action';+--------------------------+------------+-------------+| movie_title              | movie_year | movie_genre |+--------------------------+------------+-------------+| Smokey Mountain Wildlife |       2011 | ACTION      || Time to Burn             |       2012 | ACTION      |+--------------------------+------------+-------------+2 rows in set (0.000 sec)12.select movie_num,movie_title,movie_cost from movie where movie_cost>40;+-----------+--------------------------+------------+| movie_num | movie_title              | movie_cost |+-----------+--------------------------+------------+|      1235 | Smokey Mountain Wildlife |      59.95 ||      1236 | Richard Goodhope         |      59.95 ||      1238 | Constant Companion       |      89.95 ||      1245 | Time to Burn             |      45.49 ||      1246 | What He Doesn't Know     |      58.29 |+-----------+--------------------------+------------+5 rows in set (0.001 sec)13.select movie_num,movie_title,movie_cost,movie_genre from movie where movie_genre in ('action','comedy') and movie_cost<50 order by movie_genre asc;+-----------+---------------+------------+-------------+| movie_num | movie_title   | movie_cost | movie_genre |+-----------+---------------+------------+-------------+|      1245 | Time to Burn  |      45.49 | ACTION      ||      1237 | Beatnik Fever |      29.95 | COMEDY      |+-----------+---------------+------------+-------------+2 rows in set (0.001 sec)14.SELECT mem_num, mem_fname, mem_lname, mem_street, mem_state, mem_balance FROM membership WHERE mem_state = 'TN' AND mem_balance<5 AND mem_street LIKE '%Avenue';+---------+-----------+-----------+-----------------------+-----------+-------------+| mem_num | mem_fname | mem_lname | mem_street            | mem_state | mem_balance |+---------+-----------+-----------+-----------------------+-----------+-------------+|     104 | Jamal     | Melendez  | 788 East 145th Avenue | TN        |           0 ||     112 | Luis      | Trujillo  | 7267 Melvin Avenue    | TN        |           3 |+---------+-----------+-----------+-----------------------+-----------+-------------+2 rows in set (0.001 sec)15.select movie_genre,count(*) as 'Number of Movies' from movie group by movie_genre;+-------------+------------------+| movie_genre | Number of Movies |+-------------+------------------+| FAMILY      |                1 || ACTION      |                2 || DRAMA       |                3 || COMEDY      |                2 |+-------------+------------------+4 rows in set (0.003 sec)16.select avg(movie_cost) as 'Average movie cost' from movie;+--------------------+| Average movie cost |+--------------------+|          51.127500 |+--------------------+1 row in set (0.003 sec)17.select movie_genre, avg(movie_cost) as 'Average Cost' from movie group by movie_genre;+-------------+--------------+| movie_genre | Average Cost |+-------------+--------------+| FAMILY      |    39.950000 || ACTION      |    52.720000 || DRAMA       |    58.463333 || COMEDY      |    44.120000 |+-------------+--------------+4 rows in set (0.002 sec)18.SELECT m.movie_title, m.movie_genre, p.price_description, p.price_rentfee FROM movie m JOIN price p ON m.price_code = p.price_code WHERE m.price_code IS NOT NULL;+----------------------------+-------------+-------------------+---------------+| movie_title                | movie_genre | price_description | price_rentfee |+----------------------------+-------------+-------------------+---------------+| What He Doesn't Know       | COMEDY      | Standard          |          2.50 || The Cesar Family Christmas | FAMILY      | New Release       |          4.00 || Richard Goodhope           | DRAMA       | New Release       |          4.00 || Beatnik Fever              | COMEDY      | New Release       |          4.00 || Smokey Mountain Wildlife   | ACTION      | Discount          |          2.00 || Where Hope Dies            | DRAMA       | Discount          |          2.00 || Time to Burn               | ACTION      | Discount          |          2.00 |+----------------------------+-------------+-------------------+---------------+7 rows in set (0.001 sec)19.SELECT Movie_Genre, AVG(Price_RentFee) AS "Average Rental Fee" FROM MOVIE JOIN PRICE ON MOVIE.Price_Code = PRICE.Price_Code GROUP BY Movie_Genre;+-------------+--------------------+| Movie_Genre | Average Rental Fee |+-------------+--------------------+| COMEDY      |           3.250000 || FAMILY      |           4.000000 || DRAMA       |           3.000000 || ACTION      |           2.000000 |+-------------+--------------------+4 rows in set (0.001 sec)20.SELECT Movie_Title, Movie_Cost / Price_RentFee AS "Breakeven Rentals" FROM MOVIE JOIN PRICE ON MOVIE.Price_Code = PRICE.Price_Code;+----------------------------+-------------------+| Movie_Title                | Breakeven Rentals |+----------------------------+-------------------+| What He Doesn't Know       |         23.316000 || The Cesar Family Christmas |          9.987500 || Richard Goodhope           |         14.987500 || Beatnik Fever              |          7.487500 || Smokey Mountain Wildlife   |         29.975000 || Where Hope Dies            |         12.745000 || Time to Burn               |         22.745000 |+----------------------------+-------------------+7 rows in set (0.001 sec)21.SELECT Movie_Title, Movie_Year FROM MOVIE WHERE Price_Code IS NOT NULL;+----------------------------+------------+| Movie_Title                | Movie_Year |+----------------------------+------------+| What He Doesn't Know       |       2013 || The Cesar Family Christmas |       2014 || Richard Goodhope           |       2015 || Beatnik Fever              |       2014 || Smokey Mountain Wildlife   |       2011 || Where Hope Dies            |       2005 || Time to Burn               |       2012 |+----------------------------+------------+7 rows in set (0.001 sec)22.SELECT Movie_Title, Movie_Genre, Movie_Cost FROM MOVIE WHERE Movie_Cost BETWEEN 44.99 AND 49.99;+--------------+-------------+------------+| Movie_Title  | Movie_Genre | Movie_Cost |+--------------+-------------+------------+| Time to Burn | ACTION      |      45.49 |+--------------+-------------+------------+1 row in set (0.001 sec)23.SELECT Movie_Title, Price_Description, Price_RentFee, Movie_Genre FROM MOVIE JOIN PRICE ON MOVIE.Price_Code = PRICE.Price_Code WHERE Movie_Genre IN ('FAMILY', 'COMEDY', 'DRAMA');+----------------------------+-------------------+---------------+-------------+| Movie_Title                | Price_Description | Price_RentFee | Movie_Genre |+----------------------------+-------------------+---------------+-------------+| What He Doesn't Know       | Standard          |          2.50 | COMEDY      || The Cesar Family Christmas | New Release       |          4.00 | FAMILY      || Richard Goodhope           | New Release       |          4.00 | DRAMA       || Beatnik Fever              | New Release       |          4.00 | COMEDY      || Where Hope Dies            | Discount          |          2.00 | DRAMA       |+----------------------------+-------------------+---------------+-------------+5 rows in set (0.001 sec)24.SELECT DISTINCT MEMBERSHIP.Mem_Num, Mem_FName, Mem_LName, Mem_Balance FROM MEMBERSHIP JOIN RENTAL ON MEMBERSHIP.Mem_Num = RENTAL.Mem_Num;+---------+-----------+-----------+-------------+| Mem_Num | Mem_FName | Mem_LName | Mem_Balance |+---------+-----------+-----------+-------------+|     102 | Tami      | Dawson    |          11 ||     103 | Curt      | Knight    |           6 ||     104 | Jamal     | Melendez  |           0 ||     105 | Iva       | Mcclain   |          15 ||     107 | Rosario   | Elliott   |           5 ||     110 | Lewis     | Rosales   |           0 ||     111 | Stacy     | Mann      |           8 |+---------+-----------+-----------+-------------+7 rows in set (0.001 sec)25.SELECT MIN(Mem_Balance) AS "Minimum Balance",MAX(Mem_Balance) AS "Maximum Balance",AVG(Mem_Balance) AS "Average Balance" FROM (SELECT DISTINCT MEMBERSHIP.Mem_Num, Mem_Balance FROM MEMBERSHIP JOIN RENTAL ON MEMBERSHIP.Mem_Num = RENTAL.Mem_Num ) AS Sub;+-----------------+-----------------+-----------------+| Minimum Balance | Maximum Balance | Average Balance |+-----------------+-----------------+-----------------+|               0 |              15 |          6.4286 |+-----------------+-----------------+-----------------+1 row in set (0.001 sec)26.SELECT RENTAL.Rent_Num, Rent_Date, DETAILRENTAL.Vid_Num, Movie_Title,        Detail_DueDate, Detail_ReturnDate FROM RENTAL JOIN DETAILRENTAL ON RENTAL.Rent_Num = DETAILRENTAL.Rent_Num JOIN VIDEO ON DETAILRENTAL.Vid_Num = VIDEO.Vid_Num JOIN MOVIE ON VIDEO.Movie_Num = MOVIE.Movie_Num WHERE Detail_ReturnDate > Detail_DueDate ORDER BY RENTAL.Rent_Num, Movie_Title;+----------+------------+---------+----------------------------+----------------+-------------------+| Rent_Num | Rent_Date  | Vid_Num | Movie_Title                | Detail_DueDate | Detail_ReturnDate |+----------+------------+---------+----------------------------+----------------+-------------------+|     1003 | 2016-03-02 |   54325 | The Cesar Family Christmas | 2016-03-04     | 2016-03-09        ||     1003 | 2016-03-02 |   61369 | What He Doesn't Know       | 2016-03-06     | 2016-03-09        ||     1003 | 2016-03-02 |   61388 | Where Hope Dies            | 2016-03-06     | 2016-03-09        ||     1004 | 2016-03-02 |   44392 | Beatnik Fever              | 2016-03-05     | 2016-03-07        ||     1004 | 2016-03-02 |   34367 | Richard Goodhope           | 2016-03-05     | 2016-03-07        |+----------+------------+---------+----------------------------+----------------+-------------------+5 rows in set (0.001 sec)27.SELECT RENTAL.Rent_Num, Rent_Date, Movie_Title, Detail_Fee FROM RENTAL JOIN DETAILRENTAL ON RENTAL.Rent_Num = DETAILRENTAL.Rent_Num JOIN VIDEO ON DETAILRENTAL.Vid_Num = VIDEO.Vid_Num JOIN MOVIE ON VIDEO.Movie_Num = MOVIE.Movie_Num WHERE Detail_ReturnDate <= Detail_DueDate;+----------+------------+--------------------------+------------+| Rent_Num | Rent_Date  | Movie_Title              | Detail_Fee |+----------+------------+--------------------------+------------+|     1001 | 2016-03-01 | Smokey Mountain Wildlife |       2.00 ||     1001 | 2016-03-01 | Where Hope Dies          |       2.00 ||     1002 | 2016-03-01 | Beatnik Fever            |       3.50 ||     1004 | 2016-03-02 | Smokey Mountain Wildlife |       2.00 ||     1005 | 2016-03-02 | Smokey Mountain Wildlife |       2.00 ||     1005 | 2016-03-02 | Beatnik Fever            |       3.50 ||     1006 | 2016-03-02 | Richard Goodhope         |       3.50 ||     1008 | 2016-03-03 | Richard Goodhope         |       3.50 |+----------+------------+--------------------------+------------+8 rows in set (0.001 sec)28.SELECT m.Movie_Num, m.Movie_Genre,        (SELECT AVG(m2.Movie_Cost) FROM MOVIE m2 WHERE m2.Movie_Genre = m.Movie_Genre) AS Average_Cost,        m.Movie_Cost,        (m.Movie_Cost - (SELECT AVG(m2.Movie_Cost) FROM MOVIE m2 WHERE m2.Movie_Genre = m.Movie_Genre))             / (SELECT AVG(m2.Movie_Cost) FROM MOVIE m2 WHERE m2.Movie_Genre = m.Movie_Genre) * 100 AS Percent_Difference FROM MOVIE m ORDER BY m.Movie_Genre, m.Movie_Num;+-----------+-------------+--------------+------------+--------------------+| Movie_Num | Movie_Genre | Average_Cost | Movie_Cost | Percent_Difference |+-----------+-------------+--------------+------------+--------------------+|      1235 | ACTION      |    52.720000 |      59.95 |      13.7139605500 ||      1245 | ACTION      |    52.720000 |      45.49 |     -13.7139605500 ||      1237 | COMEDY      |    44.120000 |      29.95 |     -32.1169537600 ||      1246 | COMEDY      |    44.120000 |      58.29 |      32.1169537600 ||      1236 | DRAMA       |    58.463333 |      59.95 |       2.5429049500 ||      1238 | DRAMA       |    58.463333 |      89.95 |      53.8571189900 ||      1239 | DRAMA       |    58.463333 |      25.49 |     -56.4000222400 ||      1234 | FAMILY      |    39.950000 |      39.95 |       0.0000000000 |+-----------+-------------+--------------+------------+--------------------+8 rows in set (0.001 sec)
++--------------------+
+| Database           |
++--------------------+
+| basketballDb       |
+| claimsQuestions    |
+| ContactListName    |
+| information_schema |
+| KEONI              |
+| mysql              |
+| performance_schema |
+| phrontlynedb       |
+| prestigecars       |
+| sys                |
+| test               |
+| videoRentalStore   |
++--------------------+
+
+1.
+desc membership;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| MEM_NUM     | int         | NO   | PRI | NULL    |       |
+| MEM_FNAME   | varchar(50) | YES  |     | NULL    |       |
+| MEM_LNAME   | varchar(50) | YES  |     | NULL    |       |
+| MEM_STREET  | varchar(50) | YES  |     | NULL    |       |
+| MEM_CITY    | varchar(50) | YES  |     | NULL    |       |
+| MEM_STATE   | varchar(50) | YES  |     | NULL    |       |
+| MEM_ZIP     | int         | YES  |     | NULL    |       |
+| MEM_BALANCE | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+8 rows in set (0.002 sec)
+
+DESC RENTAL;
++-----------+------+------+-----+---------+-------+
+| Field     | Type | Null | Key | Default | Extra |
++-----------+------+------+-----+---------+-------+
+| RENT_NUM  | int  | NO   | PRI | NULL    |       |
+| RENT_DATE | date | YES  |     | NULL    |       |
+| MEM_NUM   | int  | YES  | MUL | NULL    |       |
++-----------+------+------+-----+---------+-------+
+3 rows in set (0.001 sec)
+
+
+DESC DETAILRENTAL;
++---------------------+--------------+------+-----+---------+-------+
+| Field               | Type         | Null | Key | Default | Extra |
++---------------------+--------------+------+-----+---------+-------+
+| RENT_NUM            | int          | NO   | PRI | NULL    |       |
+| VID_NUM             | int          | NO   | PRI | NULL    |       |
+| DETAIL_FEE          | decimal(8,2) | YES  |     | NULL    |       |
+| DETAIL_DUEDATE      | date         | YES  |     | NULL    |       |
+| DETAIL_RETURNDATE   | date         | YES  |     | NULL    |       |
+| DETAIL_DAILYLATEFEE | decimal(8,2) | YES  |     | NULL    |       |
++---------------------+--------------+------+-----+---------+-------+
+6 rows in set (0.003 sec)
+
+DESC PRICE;
++--------------------+--------------+------+-----+---------+-------+
+| Field              | Type         | Null | Key | Default | Extra |
++--------------------+--------------+------+-----+---------+-------+
+| PRICE_CODE         | int          | NO   | PRI | NULL    |       |
+| PRICE_DESCRIPTION  | varchar(50)  | YES  |     | NULL    |       |
+| PRICE_RENTFEE      | decimal(8,2) | YES  |     | NULL    |       |
+| PRICE_DAILYLATEFEE | decimal(8,2) | YES  |     | NULL    |       |
++--------------------+--------------+------+-----+---------+-------+
+4 rows in set (0.001 sec)
+
+DESC MOVIE;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| MOVIE_NUM   | int          | NO   | PRI | NULL    |       |
+| MOVIE_TITLE | varchar(50)  | YES  |     | NULL    |       |
+| MOVIE_YEAR  | int          | YES  |     | NULL    |       |
+| MOVIE_COST  | decimal(8,2) | YES  |     | NULL    |       |
+| MOVIE_GENRE | varchar(50)  | YES  |     | NULL    |       |
+| PRICE_CODE  | int          | YES  | MUL | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+6 rows in set (0.002 sec)
+
+DESC VIDEO;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| VID_NUM    | int  | NO   | PRI | NULL    |       |
+| VID_INDATE | date | YES  |     | NULL    |       |
+| MOVIE_NUM  | int  | YES  | MUL | NULL    |       |
++------------+------+------+-----+---------+-------+
+3 rows in set (0.002 sec)
+select movie_num from movie where movie_num = 1245;
+
+2.
+DETAILRENTAL
+Create table DETAILRENTAL(RENT_NUM int, VID_NUM int, DETAIL_FEE decimal(8,2), DETAIL_DUEDATE date, DETAIL_RETURNDATE date, DETAIL_DAILYLATEFEE decimal(8,2), primary key (RENT_NUM, VID_NUM), foreign key(RENT_NUM) references RENTAL(RENT_NUM), foreign key(VID_NUM) references VIDEO(VID_NUM));
+
+
+INSERT INTO MEMBERSHIP VALUES(102,'Tami','Dawson','2632 Takli Circle','Norene','TN',37136,11),(103,'Curt','Knight','4025 Cornell Court','Flatgap','KY',41219,6),(104,'Jamal','Melendez','788 East 145th Avenue','Quebeck','TN',38579,0),(105,'Iva','Mcclain','6045 Musket Ball Circle','Summit','KY',42783,15),(106,'Miranda','Parks','4469 Maxwell Place','Germantown','TN',38183,0),(107,'Rosario','Elliott','7578 Danner Avenue','Columbia','TN',38402,5),(108,'Mattie','Guy','4390 Evergreen Street','Lily','KY',40740,0),(109,'Clint','Ochoa','1711 Elm Street','Greeneville','TN',37745,10),(110,'Lewis','Rosales','4524 Southwind Circle','Counce','TN',38326,0),(111,'Stacy','Mann','2789 East Cook Avenue','Murfreesboro','TN',37132,8),(112,'Luis','Trujillo','7267 Melvin Avenue','Heiskell','TN',37754,3),(113,'Minnie','Gonzales','6430 Vasili Drive','Williston','TN',38076,0);
+
+INSERT INTO PRICE VALUES(1,'Standard',2.00,1.00),(2,'New Release',3.50,3.00),(3,'Discount',1.50,1.00),(4,'Weekly Special',1.00,0.50);
+
+INSERT INTO MOVIE VALUES(1234,'The Cesar Family Christmas',2014,39.95,'FAMILY',2),(1235,'Smokey Mountain Wildlife',2011,59.95,'ACTION',1),(1236,'Richard Goodhope',2015,59.95,'DRAMA',2),(1237,'Beatnik Fever',2014,29.95,'COMEDY',2),(1238,'Constant Companion',2015,89.95,'DRAMA',NULL),(1239,'Where Hope Dies',2005,25.49,'DRAMA',3),(1245,'Time to Burn',2012,45.49,'ACTION',1),(1246,'What He Doesn''t Know',2013,58.29,'COMEDY',1);
+
+INSERT INTO RENTAL VALUES(1001,'01-MAR-16',103),(1002,'01-MAR-16',105),(1003,'02-MAR-16',102),(1004,'02-MAR-16',110),(1005,'02-MAR-16',111),(1006,'02-MAR-16',107),(1007,'02-MAR-16',104),(1008,'03-AR-16',105),(1009,'03-MAR-16',111);
+ select movie_num,movie_year from movie where movie_num = 1245;
+
+3.
+
+select movie_num,movie_year from movie where movie_num = 1245;
++-----------+------------+
+| movie_num | movie_year |
++-----------+------------+
+|      1245 |       2012 |
++-----------+------------+
+1 row in set (0.000 sec)
+
+select movie_num,movie_year from movie where movie_num = 1245;
++-----------+------------+
+| movie_num | movie_year |
++-----------+------------+
+|      1245 |       2010 |
++-----------+------------+
+1 row in set (0.003 sec)
+
+4.
+select movie_genre,price_code from movie where movie_genre = 'action';
++-------------+------------+
+| movie_genre | price_code |
++-------------+------------+
+| ACTION      |          1 |
+| ACTION      |          1 |
++-------------+------------+
+2 rows in set (0.001 sec)
+
+select movie_genre,price_code from movie where movie_genre = 'action';
++-------------+------------+
+| movie_genre | price_code |
++-------------+------------+
+| ACTION      |          3 |
+| ACTION      |          3 |
++-------------+------------+
+2 rows in set (0.000 sec)
+
+5.
+select price_rentfee from price;
++---------------+
+| price_rentfee |
++---------------+
+|          2.00 |
+|          3.50 |
+|          1.50 |
+|          1.00 |
++---------------+
+4 rows in set (0.001 sec)
+
+select price_rentfee from price;
++---------------+
+| price_rentfee |
++---------------+
+|          2.50 |
+|          4.00 |
+|          2.00 |
+|          1.50 |
++---------------+
+4 rows in set (0.000 sec)
+
+6.
+SELECT movie_title,movie_year,movie_genre from movie;
++----------------------------+------------+-------------+
+| movie_title                | movie_year | movie_genre |
++----------------------------+------------+-------------+
+| The Cesar Family Christmas |       2014 | FAMILY      |
+| Smokey Mountain Wildlife   |       2011 | ACTION      |
+| Richard Goodhope           |       2015 | DRAMA       |
+| Beatnik Fever              |       2014 | COMEDY      |
+| Constant Companion         |       2015 | DRAMA       |
+| Where Hope Dies            |       2005 | DRAMA       |
+| Time to Burn               |       2012 | ACTION      |
+| What He Doesn't Know       |       2013 | COMEDY      |
++----------------------------+------------+-------------+
+8 rows in set (0.001 sec)
+
+7. 
+select movie_year,movie_title,movie_cost from movie order by movie_year desc;
++------------+----------------------------+------------+
+| movie_year | movie_title                | movie_cost |
++------------+----------------------------+------------+
+|       2015 | Richard Goodhope           |      59.95 |
+|       2015 | Constant Companion         |      89.95 |
+|       2014 | The Cesar Family Christmas |      39.95 |
+|       2014 | Beatnik Fever              |      29.95 |
+|       2013 | What He Doesn't Know       |      58.29 |
+|       2011 | Smokey Mountain Wildlife   |      59.95 |
+|       2012 | Time to Burn               |      45.49 |
+|       2005 | Where Hope Dies            |      25.49 |
++------------+----------------------------+------------+
+8 rows in set (0.004 sec)
+
+8.
+SELECT MOVIE_TITLE, MOVIE_YEAR, MOVIE_GENRE FROM MOVIE ORDER BY MOVIE_GENRE ASC, MOVIE_YEAR DESC;
++----------------------------+------------+-------------+
+| MOVIE_TITLE                | MOVIE_YEAR | MOVIE_GENRE |
++----------------------------+------------+-------------+
+| Smokey Mountain Wildlife   |       2011 | ACTION      |
+| Time to Burn               |       2012 | ACTION      |
+| Beatnik Fever              |       2014 | COMEDY      |
+| What He Doesn't Know       |       2013 | COMEDY      |
+| Richard Goodhope           |       2015 | DRAMA       |
+| Constant Companion         |       2015 | DRAMA       |
+| Where Hope Dies            |       2005 | DRAMA       |
+| The Cesar Family Christmas |       2014 | FAMILY      |
++----------------------------+------------+-------------+
+8 rows in set (0.001 sec)
+
+9.
+select movie_num,movie_title,price_code from movie where movie_title like 'R%';
++-----------+------------------+------------+
+| movie_num | movie_title      | price_code |
++-----------+------------------+------------+
+|      1236 | Richard Goodhope |          2 |
++-----------+------------------+------------+
+1 row in set (0.003 sec)
+
+10.
+select movie_title,movie_year,movie_cost from movie where movie_title like '%hope%';
++------------------+------------+------------+
+| movie_title      | movie_year | movie_cost |
++------------------+------------+------------+
+| Richard Goodhope |       2015 |      59.95 |
+| Where Hope Dies  |       2005 |      25.49 |
++------------------+------------+------------+
+2 rows in set (0.000 sec)
+
+11.
+select movie_title,movie_year,movie_genre from movie where movie_genre ='action';
++--------------------------+------------+-------------+
+| movie_title              | movie_year | movie_genre |
++--------------------------+------------+-------------+
+| Smokey Mountain Wildlife |       2011 | ACTION      |
+| Time to Burn             |       2012 | ACTION      |
++--------------------------+------------+-------------+
+2 rows in set (0.000 sec)
+
+12.
+select movie_num,movie_title,movie_cost from movie where movie_cost>40;
++-----------+--------------------------+------------+
+| movie_num | movie_title              | movie_cost |
++-----------+--------------------------+------------+
+|      1235 | Smokey Mountain Wildlife |      59.95 |
+|      1236 | Richard Goodhope         |      59.95 |
+|      1238 | Constant Companion       |      89.95 |
+|      1245 | Time to Burn             |      45.49 |
+|      1246 | What He Doesn't Know     |      58.29 |
++-----------+--------------------------+------------+
+5 rows in set (0.001 sec)
+
+13.
+select movie_num,movie_title,movie_cost,movie_genre from movie where movie_genre in ('action','comedy') and movie_cost<50 order by movie_genre asc;
++-----------+---------------+------------+-------------+
+| movie_num | movie_title   | movie_cost | movie_genre |
++-----------+---------------+------------+-------------+
+|      1245 | Time to Burn  |      45.49 | ACTION      |
+|      1237 | Beatnik Fever |      29.95 | COMEDY      |
++-----------+---------------+------------+-------------+
+2 rows in set (0.001 sec)
+
+14.
+SELECT mem_num, mem_fname, mem_lname, mem_street, mem_state, mem_balance FROM membership WHERE mem_state = 'TN' AND mem_balance<5 AND mem_street LIKE '%Avenue';
++---------+-----------+-----------+-----------------------+-----------+-------------+
+| mem_num | mem_fname | mem_lname | mem_street            | mem_state | mem_balance |
++---------+-----------+-----------+-----------------------+-----------+-------------+
+|     104 | Jamal     | Melendez  | 788 East 145th Avenue | TN        |           0 |
+|     112 | Luis      | Trujillo  | 7267 Melvin Avenue    | TN        |           3 |
++---------+-----------+-----------+-----------------------+-----------+-------------+
+2 rows in set (0.001 sec)
+
+15.
+
+select movie_genre,count(*) as 'Number of Movies' from movie group by movie_genre;
++-------------+------------------+
+| movie_genre | Number of Movies |
++-------------+------------------+
+| FAMILY      |                1 |
+| ACTION      |                2 |
+| DRAMA       |                3 |
+| COMEDY      |                2 |
++-------------+------------------+
+4 rows in set (0.003 sec)
+
+
+16.
+select avg(movie_cost) as 'Average movie cost' from movie;
++--------------------+
+| Average movie cost |
++--------------------+
+|          51.127500 |
++--------------------+
+1 row in set (0.003 sec)
+
+17.
+select movie_genre, avg(movie_cost) as 'Average Cost' from movie group by movie_genre;
++-------------+--------------+
+| movie_genre | Average Cost |
++-------------+--------------+
+| FAMILY      |    39.950000 |
+| ACTION      |    52.720000 |
+| DRAMA       |    58.463333 |
+| COMEDY      |    44.120000 |
++-------------+--------------+
+4 rows in set (0.002 sec)
+
+
+
+
+
+18.
+SELECT m.movie_title, m.movie_genre, p.price_description, p.price_rentfee FROM movie m JOIN price p ON m.price_code = p.price_code WHERE m.price_code IS NOT NULL;
++----------------------------+-------------+-------------------+---------------+
+| movie_title                | movie_genre | price_description | price_rentfee |
++----------------------------+-------------+-------------------+---------------+
+| What He Doesn't Know       | COMEDY      | Standard          |          2.50 |
+| The Cesar Family Christmas | FAMILY      | New Release       |          4.00 |
+| Richard Goodhope           | DRAMA       | New Release       |          4.00 |
+| Beatnik Fever              | COMEDY      | New Release       |          4.00 |
+| Smokey Mountain Wildlife   | ACTION      | Discount          |          2.00 |
+| Where Hope Dies            | DRAMA       | Discount          |          2.00 |
+| Time to Burn               | ACTION      | Discount          |          2.00 |
++----------------------------+-------------+-------------------+---------------+
+7 rows in set (0.001 sec)
+
+19.
+SELECT Movie_Genre, AVG(Price_RentFee) AS "Average Rental Fee" FROM MOVIE JOIN PRICE ON MOVIE.Price_Code = PRICE.Price_Code GROUP BY Movie_Genre;
++-------------+--------------------+
+| Movie_Genre | Average Rental Fee |
++-------------+--------------------+
+| COMEDY      |           3.250000 |
+| FAMILY      |           4.000000 |
+| DRAMA       |           3.000000 |
+| ACTION      |           2.000000 |
++-------------+--------------------+
+4 rows in set (0.001 sec)
+
+20.
+SELECT Movie_Title, Movie_Cost / Price_RentFee AS "Breakeven Rentals" FROM MOVIE JOIN PRICE ON MOVIE.Price_Code = PRICE.Price_Code;
++----------------------------+-------------------+
+| Movie_Title                | Breakeven Rentals |
++----------------------------+-------------------+
+| What He Doesn't Know       |         23.316000 |
+| The Cesar Family Christmas |          9.987500 |
+| Richard Goodhope           |         14.987500 |
+| Beatnik Fever              |          7.487500 |
+| Smokey Mountain Wildlife   |         29.975000 |
+| Where Hope Dies            |         12.745000 |
+| Time to Burn               |         22.745000 |
++----------------------------+-------------------+
+7 rows in set (0.001 sec)
+
+21.
+SELECT Movie_Title, Movie_Year FROM MOVIE WHERE Price_Code IS NOT NULL;
++----------------------------+------------+
+| Movie_Title                | Movie_Year |
++----------------------------+------------+
+| What He Doesn't Know       |       2013 |
+| The Cesar Family Christmas |       2014 |
+| Richard Goodhope           |       2015 |
+| Beatnik Fever              |       2014 |
+| Smokey Mountain Wildlife   |       2011 |
+| Where Hope Dies            |       2005 |
+| Time to Burn               |       2012 |
++----------------------------+------------+
+7 rows in set (0.001 sec)
+
+22.
+SELECT Movie_Title, Movie_Genre, Movie_Cost FROM MOVIE WHERE Movie_Cost BETWEEN 44.99 AND 49.99;
++--------------+-------------+------------+
+| Movie_Title  | Movie_Genre | Movie_Cost |
++--------------+-------------+------------+
+| Time to Burn | ACTION      |      45.49 |
++--------------+-------------+------------+
+1 row in set (0.001 sec)
+
+23.
+SELECT Movie_Title, Price_Description, Price_RentFee, Movie_Genre FROM MOVIE JOIN PRICE ON MOVIE.Price_Code = PRICE.Price_Code WHERE Movie_Genre IN ('FAMILY', 'COMEDY', 'DRAMA');
++----------------------------+-------------------+---------------+-------------+
+| Movie_Title                | Price_Description | Price_RentFee | Movie_Genre |
++----------------------------+-------------------+---------------+-------------+
+| What He Doesn't Know       | Standard          |          2.50 | COMEDY      |
+| The Cesar Family Christmas | New Release       |          4.00 | FAMILY      |
+| Richard Goodhope           | New Release       |          4.00 | DRAMA       |
+| Beatnik Fever              | New Release       |          4.00 | COMEDY      |
+| Where Hope Dies            | Discount          |          2.00 | DRAMA       |
++----------------------------+-------------------+---------------+-------------+
+5 rows in set (0.001 sec)
+24.
+SELECT DISTINCT MEMBERSHIP.Mem_Num, Mem_FName, Mem_LName, Mem_Balance FROM MEMBERSHIP JOIN RENTAL ON MEMBERSHIP.Mem_Num = RENTAL.Mem_Num;
++---------+-----------+-----------+-------------+
+| Mem_Num | Mem_FName | Mem_LName | Mem_Balance |
++---------+-----------+-----------+-------------+
+|     102 | Tami      | Dawson    |          11 |
+|     103 | Curt      | Knight    |           6 |
+|     104 | Jamal     | Melendez  |           0 |
+|     105 | Iva       | Mcclain   |          15 |
+|     107 | Rosario   | Elliott   |           5 |
+|     110 | Lewis     | Rosales   |           0 |
+|     111 | Stacy     | Mann      |           8 |
++---------+-----------+-----------+-------------+
+7 rows in set (0.001 sec)
+
+25.
+SELECT MIN(Mem_Balance) AS "Minimum Balance",MAX(Mem_Balance) AS "Maximum Balance",AVG(Mem_Balance) AS "Average Balance" FROM (SELECT DISTINCT MEMBERSHIP.Mem_Num, Mem_Balance FROM MEMBERSHIP JOIN RENTAL ON MEMBERSHIP.Mem_Num = RENTAL.Mem_Num ) AS Sub;
++-----------------+-----------------+-----------------+
+| Minimum Balance | Maximum Balance | Average Balance |
++-----------------+-----------------+-----------------+
+|               0 |              15 |          6.4286 |
++-----------------+-----------------+-----------------+
+1 row in set (0.001 sec)
+
+
+26.
+SELECT RENTAL.Rent_Num, Rent_Date, DETAILRENTAL.Vid_Num, Movie_Title,Detail_DueDate, Detail_ReturnDate FROM RENTAL JOIN DETAILRENTAL ON RENTAL.Rent_Num = DETAILRENTAL.Rent_Num JOIN VIDEO ON DETAILRENTAL.Vid_Num = VIDEO.Vid_Num JOIN MOVIE ON VIDEO.Movie_Num = MOVIE.Movie_Num WHERE Detail_ReturnDate > Detail_DueDate ORDER BY RENTAL.Rent_Num, Movie_Title;
++----------+------------+---------+----------------------------+----------------+-------------------+
+| Rent_Num | Rent_Date  | Vid_Num | Movie_Title                | Detail_DueDate | Detail_ReturnDate |
++----------+------------+---------+----------------------------+----------------+-------------------+
+|     1003 | 2016-03-02 |   54325 | The Cesar Family Christmas | 2016-03-04     | 2016-03-09        |
+|     1003 | 2016-03-02 |   61369 | What He Doesn't Know       | 2016-03-06     | 2016-03-09        |
+|     1003 | 2016-03-02 |   61388 | Where Hope Dies            | 2016-03-06     | 2016-03-09        |
+|     1004 | 2016-03-02 |   44392 | Beatnik Fever              | 2016-03-05     | 2016-03-07        |
+|     1004 | 2016-03-02 |   34367 | Richard Goodhope           | 2016-03-05     | 2016-03-07        |
++----------+------------+---------+----------------------------+----------------+-------------------+
+5 rows in set (0.001 sec)
+
+27.
+SELECT RENTAL.Rent_Num, Rent_Date, Movie_Title, Detail_Fee FROM RENTAL JOIN DETAILRENTAL ON RENTAL.Rent_Num = DETAILRENTAL.Rent_Num JOIN VIDEO ON DETAILRENTAL.Vid_Num = VIDEO.Vid_Num JOIN MOVIE ON VIDEO.Movie_Num = MOVIE.Movie_Num WHERE Detail_ReturnDate <= Detail_DueDate;
++----------+------------+--------------------------+------------+
+| Rent_Num | Rent_Date  | Movie_Title              | Detail_Fee |
++----------+------------+--------------------------+------------+
+|     1001 | 2016-03-01 | Smokey Mountain Wildlife |       2.00 |
+|     1001 | 2016-03-01 | Where Hope Dies          |       2.00 |
+|     1002 | 2016-03-01 | Beatnik Fever            |       3.50 |
+|     1004 | 2016-03-02 | Smokey Mountain Wildlife |       2.00 |
+|     1005 | 2016-03-02 | Smokey Mountain Wildlife |       2.00 |
+|     1005 | 2016-03-02 | Beatnik Fever            |       3.50 |
+|     1006 | 2016-03-02 | Richard Goodhope         |       3.50 |
+|     1008 | 2016-03-03 | Richard Goodhope         |       3.50 |
++----------+------------+--------------------------+------------+
+8 rows in set (0.001 sec)
+
+28.
+SELECT m.Movie_Num, m.Movie_Genre,(SELECT AVG(m2.Movie_Cost) FROM MOVIE m2 WHERE m2.Movie_Genre = m.Movie_Genre) AS Average_Cost,        m.Movie_Cost,(m.Movie_Cost - (SELECT AVG(m2.Movie_Cost) FROM MOVIE m2 WHERE m2.Movie_Genre = m.Movie_Genre))/(SELECT AVG(m2.Movie_Cost) FROM MOVIE m2 WHERE m2.Movie_Genre = m.Movie_Genre) * 100 AS Percent_Difference FROM MOVIE m ORDER BY m.Movie_Genre, m.Movie_Num;
++-----------+-------------+--------------+------------+--------------------+
+| Movie_Num | Movie_Genre | Average_Cost | Movie_Cost | Percent_Difference |
++-----------+-------------+--------------+------------+--------------------+
+|      1235 | ACTION      |    52.720000 |      59.95 |      13.7139605500 |
+|      1245 | ACTION      |    52.720000 |      45.49 |     -13.7139605500 |
+|      1237 | COMEDY      |    44.120000 |      29.95 |     -32.1169537600 |
+|      1246 | COMEDY      |    44.120000 |      58.29 |      32.1169537600 |
+|      1236 | DRAMA       |    58.463333 |      59.95 |       2.5429049500 |
+|      1238 | DRAMA       |    58.463333 |      89.95 |      53.8571189900 |
+|      1239 | DRAMA       |    58.463333 |      25.49 |     -56.4000222400 |
+|      1234 | FAMILY      |    39.950000 |      39.95 |       0.0000000000 |
++-----------+-------------+--------------+------------+--------------------+
+8 rows in set (0.001 sec)
+
